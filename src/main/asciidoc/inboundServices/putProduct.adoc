@@ -1,0 +1,11 @@
+link:../index.html[Home]
+
+= Putting a product to the device
+
+It's very simple to put a product to the device. The only parameter of the request is the procuct name you'd like to put.
+
+include::{snippets}/putProduct/http-request.adoc[]
+include::{snippets}/putProduct/request-parameters.adoc[]
+include::{snippets}/putProduct/http-response.adoc[]
+
+link:../index.html[Home]

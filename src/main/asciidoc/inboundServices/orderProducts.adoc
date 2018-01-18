@@ -1,0 +1,10 @@
+link:../index.html[Home]
+
+= Ordering products
+
+If you like to order products which are'nt available within the device enymore, you can use following service.
+
+include::{snippets}/orderProducts/http-request.adoc[]
+include::{snippets}/orderProducts/http-response.adoc[]
+
+link:../index.html[Home]

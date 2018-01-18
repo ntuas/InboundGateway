@@ -1,4 +1,4 @@
-package com.nt.twelvefactorapp.InboundGateway;
+package com.nt.inbound;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
