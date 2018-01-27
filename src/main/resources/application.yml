@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 backend:
   messaging:
     manageProductsQueue: products.manage.queue
@@ -5,3 +8,8 @@ backend:
     user: mquser
     password: mquser
     vhost: uasnt
+
+endpoints:
+  enabled: false
+  health:
+    enabled: true

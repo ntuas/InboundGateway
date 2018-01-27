@@ -5,7 +5,7 @@
 
 	<groupId>com.nt.twelvefactorapp</groupId>
 	<artifactId>InboundGateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${app.version}</version>
 	<packaging>jar</packaging>
 
 	<name>InboundGateway</name>
@@ -19,6 +19,7 @@
 	</parent>
 
 	<properties>
+		<app.version>0.0.0</app.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -40,6 +41,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -97,6 +107,40 @@
 								<snippets>${project.build.directory}/snippets</snippets>
 								<project-version>${project.version}</project-version>
 							</attributes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-docker-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/dist</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/docker</directory>
+								</resource>
+								<resource>
+									<directory>src/main/resources</directory>
+									<includes>
+										<include>logback.xml</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>target</directory>
+									<includes>
+										<include>*.jar</include>
+									</includes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
