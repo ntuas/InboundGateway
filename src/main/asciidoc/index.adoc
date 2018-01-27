@@ -6,5 +6,5 @@ Version: {project-version}
 
 == Available services
 * link:inboundServices/putProduct.html[Put a product]
-* link:inboundServices/getProduct.html[Get a product]
+* link:inboundServices/takeProduct.html[Take a product]
 * link:inboundServices/orderProducts.html[Ordering products]

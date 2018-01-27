@@ -57,13 +57,13 @@ public class InboundServiceControllerTest {
     }
 
     @Test
-    public void service_for_getting_a_product_should_have_been_called() throws Exception {
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/getProduct/{product}", "Butter"))
+    public void service_for_taking_a_product_should_have_been_called() throws Exception {
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/takeProduct/{product}", "Butter"))
                 .andExpect(status().isOk())
-                .andDo(document("getProduct",
+                .andDo(document("takeProduct",
                         pathParameters(parameterWithName("product")
-                                .description("The name of the product, which has to be gotten from the device"))));
-        assertThat(outputCapture.toString().contains("Have to get product Butter"));
+                                .description("The name of the product, which has to be taken from the device"))));
+        assertThat(outputCapture.toString().contains("Have to take product Butter"));
     }
 
     @Test

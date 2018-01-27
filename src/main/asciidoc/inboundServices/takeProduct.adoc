@@ -1,0 +1,11 @@
+= Taking a product from the device
+
+link:../index.html[Home]
+
+It's very simple to take a product from the device. The only parameter of the request is the procuct name you'd like to take.
+
+include::{snippets}/takeProduct/http-request.adoc[]
+include::{snippets}/takeProduct/path-parameters.adoc[]
+include::{snippets}/takeProduct/http-response.adoc[]
+
+link:../index.html[Home]

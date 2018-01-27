@@ -30,14 +30,14 @@ public class InboundServiceController {
         informBackendToActForProduct("put", product);
     }
 
-    @RequestMapping(value = "/getProduct/{product}", method = RequestMethod.POST)
-    public void getProduct(@PathVariable("product") String product) {
-        log.info("Have to get product " + product);
-        informBackendToActForProduct("get", product);
+    @RequestMapping(value = "/takeProduct/{product}", method = RequestMethod.POST)
+    public void takeProduct(@PathVariable("product") String product) {
+        log.info("Have to take product " + product);
+        informBackendToActForProduct("take", product);
     }
 
     @RequestMapping(value = "/orderProducts", method = RequestMethod.POST)
-    public void getProduct() {
+    public void orderProduct() {
         log.info("Should order products");
         informBackendToActForProduct("order", "");
     }
