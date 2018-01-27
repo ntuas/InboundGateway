@@ -1,14 +1,17 @@
 package com.nt.inbound.services;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,18 +19,16 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @AutoConfigureRestDocs(outputDir = "target/snippets")
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class InboundServiceControllerTest {
 
     @Rule
@@ -39,24 +40,28 @@ public class InboundServiceControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private RabbitTemplate rabbitTemplate;
+
     @Test
     public void service_for_putting_a_product_should_have_been_called() throws Exception {
 
-        mockMvc.perform(post("/putProduct?product=Butter"))
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/putProduct/{product}", "Butter"))
                 .andExpect(status().isOk())
-        .andDo(document("putProduct",
-                requestParameters(parameterWithName("product")
-                        .description("The name of the product, which has to be put to the device"))));
+                .andDo(document("putProduct",
+                        pathParameters(parameterWithName("product")
+                                .description("The name of the product, which has to be put to the device")
+                        )));
 
         assertThat(outputCapture.toString().contains("Have to put product Butter"));
     }
 
     @Test
     public void service_for_getting_a_product_should_have_been_called() throws Exception {
-        mockMvc.perform(post("/getProduct?product=Butter"))
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/getProduct/{product}", "Butter"))
                 .andExpect(status().isOk())
                 .andDo(document("getProduct",
-                        requestParameters(parameterWithName("product")
+                        pathParameters(parameterWithName("product")
                                 .description("The name of the product, which has to be gotten from the device"))));
         assertThat(outputCapture.toString().contains("Have to get product Butter"));
     }

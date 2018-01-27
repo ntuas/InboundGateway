@@ -1,11 +1,11 @@
-link:../index.html[Home]
-
 = Getting a product from the device
+
+link:../index.html[Home]
 
 It's very simple to get a product from the device. The only parameter of the request is the procuct name you'd like to get.
 
 include::{snippets}/getProduct/http-request.adoc[]
-include::{snippets}/getProduct/request-parameters.adoc[]
+include::{snippets}/getProduct/path-parameters.adoc[]
 include::{snippets}/getProduct/http-response.adoc[]
 
 link:../index.html[Home]

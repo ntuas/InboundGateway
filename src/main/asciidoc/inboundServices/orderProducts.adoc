@@ -1,6 +1,6 @@
-link:../index.html[Home]
-
 = Ordering products
+
+link:../index.html[Home]
 
 If you like to order products which are'nt available within the device enymore, you can use following service.
 
