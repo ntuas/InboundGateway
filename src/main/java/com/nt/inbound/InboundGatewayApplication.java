@@ -1,7 +1,6 @@
 package com.nt.inbound;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +14,9 @@ import java.net.UnknownHostException;
 
 @SpringBootApplication
 @RestController
+@Slf4j
 public class InboundGatewayApplication {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(InboundGatewayApplication.class);
 
 	@Value("${WelcomeMessage:No Welcome Message defined}")
 	private String message;
@@ -33,6 +32,6 @@ public class InboundGatewayApplication {
 
 	@PostConstruct
 	public void logHostIp() throws UnknownHostException {
-		LOGGER.info("Host Ip Address: {}", InetAddress.getLocalHost().getHostAddress());
+		log.info("Host Ip Address: {}", InetAddress.getLocalHost().getHostAddress());
 	}
 }
