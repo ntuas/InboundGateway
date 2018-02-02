@@ -1,6 +1,7 @@
 package com.nt.inbound.config;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -10,10 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @Configuration
 @ConfigurationProperties("backend.messaging")
 @Setter
 @Profile("default")
+@Slf4j
 public class MessagingConfig {
 
     private String manageProductsQueue;
@@ -21,15 +26,28 @@ public class MessagingConfig {
     private String user;
     private String password;
     private String vhost;
+    private String url;
 
     @Bean
     public ConnectionFactory connectionFactory() {
+        if (url != null)
+            return connectionFactoryWithUri();
+
         CachingConnectionFactory connectionFactory =
                 new CachingConnectionFactory(host);
         connectionFactory.setUsername(user);
         connectionFactory.setPassword(password);
         connectionFactory.setVirtualHost(vhost);
         return connectionFactory;
+    }
+
+    private ConnectionFactory connectionFactoryWithUri() {
+        try {
+            log.info("Create connection factory for '" + url + "'");
+            return new CachingConnectionFactory(new URI(url));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
