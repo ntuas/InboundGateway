@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim
+FROM openjdk:8u151-jre-slim
 WORKDIR /app
 ENTRYPOINT ["/app/run-inbound_gateway.sh"]
 ENV JAVA_OPTS="-Xmx2g"
