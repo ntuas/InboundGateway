@@ -3,7 +3,7 @@ server:
 
 backend:
   messaging:
-    url: ${CLOUDAMQP_URL}
+    url: ${CLOUDAMQP_URL:}
     manageProductsQueue: products.manage.queue
     host: 172.18.0.7
     user: mquser

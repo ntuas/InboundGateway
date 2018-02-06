@@ -30,7 +30,7 @@ public class MessagingConfig {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        if (url != null)
+        if (url != null && !url.isEmpty())
             return connectionFactoryWithUri();
 
         CachingConnectionFactory connectionFactory =
