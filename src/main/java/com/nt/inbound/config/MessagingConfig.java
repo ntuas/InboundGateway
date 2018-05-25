@@ -3,9 +3,13 @@ package com.nt.inbound.config;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,4 +65,5 @@ public class MessagingConfig {
     public RabbitAdmin rabbitAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
+
 }
