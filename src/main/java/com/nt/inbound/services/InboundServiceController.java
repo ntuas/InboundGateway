@@ -1,5 +1,7 @@
 package com.nt.inbound.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -14,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -44,7 +44,7 @@ public class InboundServiceController {
     }
 
     @RequestMapping(value = {"/count", "/count/{product}"}, method = RequestMethod.GET)
-    public List<Map<String, Integer>> getAmountOfAvailableProducts(@PathVariable(required = false, value = "product") Optional<String> product) throws InterruptedException, ExecutionException, TimeoutException {
+    public Map<String, Integer> getAmountOfAvailableProducts(@PathVariable(required = false, value = "product") Optional<String> product) throws InterruptedException, ExecutionException, TimeoutException {
         log.info("Have to count {}", product.isPresent() ? " available amount of " + product.get() : " available amount of all products");
 
         Message messageToSend = MessageBuilder.withBody(product.isPresent() ? product.get().getBytes() : "".getBytes())
@@ -55,9 +55,21 @@ public class InboundServiceController {
                 .build();
 
         Message returnedMessage = rabbitTemplate.sendAndReceive(manageProductsQueue.getName(),messageToSend);
-        log.info("Received response {}", new String(returnedMessage.getBody()));
+        if(returnedMessage == null) {
+           log.warn("Products couldn't be counted");
+            return new HashMap<>();
+        }
+        else {
+            try {
+                ObjectReader jsonReader = new ObjectMapper().readerFor(Map.class);
+                Map value = jsonReader.readValue(returnedMessage.getBody());
+                log.info("Received response {}", value);
+                return value;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-        return new ArrayList<>();
+        }
     }
 
     @RequestMapping(value = "/takeProduct/{product}", method = RequestMethod.POST)
