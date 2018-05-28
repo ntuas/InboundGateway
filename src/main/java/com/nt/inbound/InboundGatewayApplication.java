@@ -17,17 +17,8 @@ import java.net.UnknownHostException;
 @Slf4j
 public class InboundGatewayApplication {
 
-
-	@Value("${WelcomeMessage:No Welcome Message defined}")
-	private String message;
-
 	public static void main(String[] args) {
 		SpringApplication.run(InboundGatewayApplication.class, args);
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getMessage() {
-		return this.message;
 	}
 
 	@PostConstruct
